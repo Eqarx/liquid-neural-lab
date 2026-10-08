@@ -1,0 +1,3 @@
+# pnpm 11：允许 esbuild 执行安装脚本（否则它的平台二进制不会被安装，构建会失败）
+allowBuilds:
+  esbuild: true

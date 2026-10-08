@@ -1,0 +1,107 @@
+{
+  "id": "digit-mlp14-196-96-64-48-10",
+  "version": 2,
+  "side": 14,
+  "architecture": [
+    196,
+    96,
+    64,
+    48,
+    10
+  ],
+  "activation": [
+    "none",
+    "relu",
+    "relu",
+    "relu",
+    "softmax"
+  ],
+  "layout": [
+    {
+      "name": "W1",
+      "shape": [
+        96,
+        196
+      ],
+      "offset": 0,
+      "count": 18816
+    },
+    {
+      "name": "b1",
+      "shape": [
+        96
+      ],
+      "offset": 18816,
+      "count": 96
+    },
+    {
+      "name": "W2",
+      "shape": [
+        64,
+        96
+      ],
+      "offset": 18912,
+      "count": 6144
+    },
+    {
+      "name": "b2",
+      "shape": [
+        64
+      ],
+      "offset": 25056,
+      "count": 64
+    },
+    {
+      "name": "W3",
+      "shape": [
+        48,
+        64
+      ],
+      "offset": 25120,
+      "count": 3072
+    },
+    {
+      "name": "b3",
+      "shape": [
+        48
+      ],
+      "offset": 28192,
+      "count": 48
+    },
+    {
+      "name": "W4",
+      "shape": [
+        10,
+        48
+      ],
+      "offset": 28240,
+      "count": 480
+    },
+    {
+      "name": "b4",
+      "shape": [
+        10
+      ],
+      "offset": 28720,
+      "count": 10
+    }
+  ],
+  "totalParams": 28730,
+  "dtype": "float32",
+  "byteOrder": "little-endian",
+  "inputPipeline": "painted 14x14 grid -> 8-bit quantize (round(x*255)/255) -> flatten 196",
+  "training": {
+    "dataset": "MNIST (train 60000 / test 10000), 2x2 mean downsample to 14x14",
+    "epochs": 70,
+    "batchSize": 128,
+    "optimizer": "SGD + momentum 0.9, grad-norm clip 5.0",
+    "lrSchedule": "warmup 3 epochs to 0.06, then cosine to 0.002",
+    "l2": 0.0001,
+    "init": "He normal",
+    "augmentation": "scale 0.85-1.15, shift ±2px, dilation p=0.30, blur p=0.25, intensity 0.60-1.0",
+    "validation": "5000 held out from train",
+    "bestValAccuracy": 0.982,
+    "cleanTestAccuracy": 0.9791,
+    "jitterTestAccuracy": 0.9734
+  }
+}

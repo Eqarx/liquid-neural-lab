@@ -1,0 +1,74 @@
+# 把 Vite 构建产物发布到 GitHub Pages（免费静态托管）
+#
+# 一次性设置：仓库 Settings → Pages → Build and deployment → Source 选 “GitHub Actions”
+# 之后每次 push 到 main 自动构建并部署；也可在 Actions 页手动触发（workflow_dispatch）。
+#
+# 说明：
+#   · 本项目用 pnpm（见 pnpm-lock.yaml / pnpm-workspace.yaml），因此用 pnpm 安装与构建
+#   · vite.config.ts 里 base: './' 用相对路径，部署到 https://<用户名>.github.io/<仓库名>/ 无需改动
+#   · public/.nojekyll 会被复制进 dist，保证 Pages 不启用 Jekyll
+#   · action 版本按 Vite 官方部署文档固定到 commit（tag 可能被移动，commit 更稳）
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "11.7.0"
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type-check & unit tests
+        run: |
+          pnpm check
+          pnpm test
+
+      - name: Build
+        run: pnpm build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5

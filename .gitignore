@@ -1,0 +1,24 @@
+# ---------- 依赖与构建产物 ----------
+node_modules/
+dist/
+*.tsbuildinfo
+.vite/
+__pycache__/
+*.pyc
+
+# ---------- 本地临时材料（scratch）----------
+# tmp/ 是开发过程的临时脚本、日志、诊断截图与历史版本归档；backups/ 是本地快照，都不进仓库
+tmp/
+backups/
+*.log
+
+# ---------- 编辑器 / 系统 ----------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.local
+
+# ---------- 训练数据（MNIST 自行下载，不入库）----------
+tmp/mnist/

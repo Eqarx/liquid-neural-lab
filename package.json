@@ -1,0 +1,59 @@
+{
+  "name": "liquid-neural-lab",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "description": "液光神经网络 · 手写数字实验室：在 14×14 像素格上写字，看能量沿管道逐层注入玻璃球直到输出层。真实 MNIST MLP（196→96→64→48→10）浏览器本地推理。",
+  "keywords": [
+    "neural-network",
+    "mnist",
+    "canvas",
+    "visualization",
+    "react",
+    "typescript",
+    "education",
+    "machine-learning"
+  ],
+  "homepage": "https://eqarx.github.io/liquid-neural-lab/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eqarx/liquid-neural-lab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Eqarx/liquid-neural-lab/issues"
+  },
+  "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "check": "tsc -b --pretty false",
+    "smoke": "node scripts/smoke.mjs",
+    "smoke:mobile": "node scripts/smoke.mjs --mobile",
+    "smoke:reduced": "node scripts/smoke.mjs --reduced",
+    "audit": "node scripts/audit.mjs",
+    "train": "python scripts/train_digit_mlp.py",
+    "gradcheck": "python scripts/gradcheck.py"
+  },
+  "dependencies": {
+    "d3": "^7.9.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/d3": "^7.4.3",
+    "@types/node": "^26.6.4",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "playwright-core": "^1.63.0",
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.8"
+  }
+}
